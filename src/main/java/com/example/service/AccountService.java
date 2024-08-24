@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.entity.Account;
 import com.example.exception.InvalidInputException;
+import com.example.exception.UserPassMismatchException;
 import com.example.exception.UsernameTakenException;
 import com.example.repository.AccountRepository;
 
@@ -38,6 +39,27 @@ public class AccountService {
         }
 
         return accountRepository.save(account);
+    }
+
+    // Our API should be able to process User logins.
+    public Account authenticate(String username, String password) {
+
+        // Check if account exists
+        Optional<Account> accountOptional = accountRepository.findByUsername(username);
+        if(accountOptional.isPresent()){ 
+            Account existing = accountOptional.get();
+
+             // Check if passwords match
+            if(!existing.getPassword().equals(password)) {
+                throw new UserPassMismatchException("Username and password do not match");
+            } 
+                
+            return existing;
+            
+        } else {
+            throw new UserPassMismatchException("Username not found");
+        }
+
     }
 
 }

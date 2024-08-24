@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.entity.*;
 import com.example.exception.InvalidInputException;
+import com.example.exception.UserPassMismatchException;
 import com.example.exception.UsernameTakenException;
 import com.example.service.*;
 
@@ -35,10 +36,17 @@ public class SocialMediaController {
         } catch (InvalidInputException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+    }
 
-        
-
-        
+    // Our API should be able to process User logins.
+    @PostMapping("/login")
+    public ResponseEntity<Account> login(@RequestBody Account account) {
+        try {
+            Account authAccount = accountService.authenticate(account.getUsername(), account.getPassword());
+            return ResponseEntity.ok(authAccount);
+        } catch (UserPassMismatchException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
 
 }
