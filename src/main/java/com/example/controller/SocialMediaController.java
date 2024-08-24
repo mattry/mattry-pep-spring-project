@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.entity.*;
 import com.example.exception.InvalidInputException;
+import com.example.exception.UserNotFoundException;
 import com.example.exception.UserPassMismatchException;
 import com.example.exception.UsernameTakenException;
 import com.example.service.*;
@@ -22,8 +23,8 @@ public class SocialMediaController {
     @Autowired
     private AccountService accountService;
 
-    //@Autowired
-    //private MessageService messageService;
+    @Autowired
+    private MessageService messageService;
 
     // Our API should be able to process new User registrations.
     @PostMapping("/register")
@@ -46,6 +47,19 @@ public class SocialMediaController {
             return ResponseEntity.ok(authAccount);
         } catch (UserPassMismatchException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
+    // Our API should be able to process the creation of new messages.
+    @PostMapping("/messages")
+    public ResponseEntity<Message> createMessage(@RequestBody Message message) {
+        try{
+            Message createdMessage = messageService.createMessage(message);
+            return ResponseEntity.ok(createdMessage);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch (InvalidInputException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
