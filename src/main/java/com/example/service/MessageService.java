@@ -55,6 +55,18 @@ public class MessageService {
         }
     }
 
+    // Our API should be able to delete a message identified by a message ID.
+    public void deleteMessageById(int id) {
+
+        //check if message exists
+        Optional<Message> messageOptional = messageRepository.findById(id);
+        if (messageOptional.isPresent()) {
+            messageRepository.delete(messageOptional.get());
+        } else {
+            throw new InvalidInputException("Invalid message ID");
+        }
+    }
+
 
     
 }

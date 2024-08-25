@@ -77,7 +77,18 @@ public class SocialMediaController {
         try{
             Message message = messageService.getMessageById(id);
             return ResponseEntity.ok(message);
-        } catch (InvalidInputException e){
+        } catch (InvalidInputException e) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+    }
+
+    // Our API should be able to delete a message identified by a message ID.
+    @DeleteMapping("/messages/{id}") 
+    public ResponseEntity<?> deleteMessageById(@PathVariable int id) {
+        try{
+            messageService.deleteMessageById(id);
+            return ResponseEntity.ok(1);
+        } catch (InvalidInputException e) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
     }
