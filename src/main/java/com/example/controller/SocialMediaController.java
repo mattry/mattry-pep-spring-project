@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +63,12 @@ public class SocialMediaController {
         } catch (InvalidInputException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+    }
+
+    // Our API should be able to retrieve all messages.
+    @GetMapping("/messages")
+    public List<Message> getAllMessages() {
+        return messageService.getAllMessages();
     }
 
 }
