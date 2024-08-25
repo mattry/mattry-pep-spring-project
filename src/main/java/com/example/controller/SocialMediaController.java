@@ -112,7 +112,7 @@ public class SocialMediaController {
             return ResponseEntity.ok(messages);
         } catch (InvalidInputException e) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }
+        } 
     }
 
 
