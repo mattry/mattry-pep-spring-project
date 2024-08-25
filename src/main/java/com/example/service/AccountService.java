@@ -6,8 +6,6 @@ import com.example.exception.UserPassMismatchException;
 import com.example.exception.UsernameTakenException;
 import com.example.repository.AccountRepository;
 
-import javassist.tools.web.BadHttpRequest;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
