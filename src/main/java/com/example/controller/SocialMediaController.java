@@ -71,4 +71,17 @@ public class SocialMediaController {
         return messageService.getAllMessages();
     }
 
+    // Our API should be able to retrieve a message by its ID.
+    @GetMapping("/messages/{id}")
+    public ResponseEntity<Message> getMessageById(@PathVariable int id){
+        try{
+            Message message = messageService.getMessageById(id);
+            return ResponseEntity.ok(message);
+        } catch (InvalidInputException e){
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+    }
+
+
+
 }

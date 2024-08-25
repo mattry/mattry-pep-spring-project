@@ -37,12 +37,23 @@ public class MessageService {
 
     }
 
-    
+
     // Our API should be able to retrieve all messages.
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
     }
 
+    // Our API should be able to retrieve a message by its ID.
+    public Message getMessageById(int id) {
+
+        // Check if message exists
+        Optional<Message> messageOptional = messageRepository.findById(id);
+        if (messageOptional.isPresent()) {
+            return messageOptional.get();
+        } else {
+            throw new InvalidInputException("Invalid message ID");
+        }
+    }
 
 
     
