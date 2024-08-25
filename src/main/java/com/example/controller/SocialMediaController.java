@@ -93,6 +93,17 @@ public class SocialMediaController {
         }
     }
 
+    // Our API should be able to update a message text identified by a message ID.
+    @PatchMapping("/messages/{id}")
+    public ResponseEntity<?> updateMessage(@PathVariable int id, @RequestBody Message message) {
+        try{
+            messageService.updateMessage(id, message.getMessageText());
+            return ResponseEntity.ok(1);
+        } catch (InvalidInputException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
 
 
 }

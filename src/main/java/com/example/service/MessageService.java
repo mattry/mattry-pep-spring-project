@@ -58,10 +58,33 @@ public class MessageService {
     // Our API should be able to delete a message identified by a message ID.
     public void deleteMessageById(int id) {
 
-        //check if message exists
+        // Check if message exists
         Optional<Message> messageOptional = messageRepository.findById(id);
         if (messageOptional.isPresent()) {
             messageRepository.delete(messageOptional.get());
+        } else {
+            throw new InvalidInputException("Invalid message ID");
+        }
+    }
+
+    // Our API should be able to update a message text identified by a message ID.
+    public Message updateMessage(int messageId, String messageText) {
+
+        System.out.println("String input is: " + messageText);
+        
+        // Check if message exists
+        Optional<Message> messageOptional = messageRepository.findById(messageId);
+        if (messageOptional.isPresent()) {
+            Message message = messageOptional.get();
+            
+            // Check if message_text is valid
+            if (messageText == null || messageText.isEmpty() || messageText.length() > 255) {
+                throw new InvalidInputException("Invalid message text");
+            }
+            
+            message.setMessageText(messageText);
+            return messageRepository.save(message);
+
         } else {
             throw new InvalidInputException("Invalid message ID");
         }
