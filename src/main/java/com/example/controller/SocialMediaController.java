@@ -104,6 +104,17 @@ public class SocialMediaController {
         }
     }
 
+    // Our API should be able to retrieve all messages written by a particular user.
+    @GetMapping("/accounts/{id}/messages")
+    public ResponseEntity<?> getMessagesByPoster(@PathVariable int id) {
+        try{
+            List<Message> messages = messageService.getMessagesByPoster(id);
+            return ResponseEntity.ok(messages);
+        } catch (InvalidInputException e) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+    }
+
 
 
 }

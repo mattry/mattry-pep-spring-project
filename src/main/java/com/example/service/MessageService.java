@@ -90,6 +90,18 @@ public class MessageService {
         }
     }
 
+    // Our API should be able to retrieve all messages written by a particular user.
+    public List<Message> getMessagesByPoster(int id) {
+
+        // Check if account exists
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if (accountOptional.isPresent()) {
+            return messageRepository.findByPostedBy(id);
+        }
+        else {
+            throw new InvalidInputException("Invalid user id");
+        }
+    }
 
     
 }
